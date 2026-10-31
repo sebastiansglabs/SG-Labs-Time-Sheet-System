@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Work Summary – Concept</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <!-- CONCEPT ONLY: sample data and placeholder photos, to agree on the layout before the app exports real PDFs. -->
+  <style>
+    @page { size: Letter; margin: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Poppins", system-ui, sans-serif; color: #1C1C1E; font-size: 10pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { width: 8.5in; min-height: 11in; padding: .6in .65in .55in; position: relative; page-break-after: always; display: flex; flex-direction: column; }
+    .page:last-child { page-break-after: auto; }
+    .num { font-variant-numeric: tabular-nums; }
+    .muted { color: #8E8E93; }
+
+    header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 44px; height: 44px; border-radius: 12px; background: #1C1C1E; display: grid; place-items: center; }
+    .logo svg { width: 30px; height: 30px; }
+    .brand b { display: block; font-size: 16pt; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+    .brand span { font-size: 9pt; color: #8E8E93; }
+    .doc { text-align: right; }
+    .doc h1 { font-size: 20pt; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+    .doc p { font-size: 9pt; color: #8E8E93; margin-top: 2px; }
+
+    .meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 30px; border-top: 1px solid #E7E8EC; border-bottom: 1px solid #E7E8EC; }
+    .meta div { padding: 12px 0; }
+    .meta div + div { padding-left: 16px; border-left: 1px solid #E7E8EC; }
+    .meta small { display: block; font-size: 8pt; color: #8E8E93; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
+    .meta strong { font-weight: 600; font-size: 10.5pt; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #3D8B7D; margin-right: 6px; vertical-align: 1px; }
+
+    .totals { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr 1fr 1.25fr; border-radius: 18px; background: #F4F5F8; overflow: hidden; }
+    .totals div { padding: 14px 16px; }
+    .totals small { display: block; font-size: 8pt; color: #8E8E93; font-weight: 500; }
+    .totals strong { font-size: 17pt; font-weight: 600; letter-spacing: -.02em; }
+    .totals .due { background: #1C1C1E; color: #fff; }
+    .totals .due small { color: rgba(255, 255, 255, .65); }
+
+    h2 { font-size: 12pt; font-weight: 600; margin: 28px 0 8px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 8pt; font-weight: 500; color: #8E8E93; text-transform: uppercase; letter-spacing: .06em; padding: 8px 8px; border-bottom: 1px solid #1C1C1E; }
+    th.r, td.r { text-align: right; }
+    td { padding: 10px 8px; vertical-align: top; border-bottom: 1px solid #EFF0F3; font-size: 9.5pt; }
+    td.date { font-weight: 600; white-space: nowrap; }
+    td.date span { display: block; font-weight: 400; color: #8E8E93; font-size: 8.5pt; }
+    td.time { white-space: nowrap; }
+    td.worked { font-weight: 600; white-space: nowrap; }
+    .desc-empty { color: #B9BBC2; }
+    .thumbs { display: flex; gap: 4px; margin-top: 6px; }
+    .thumb { width: 38px; height: 30px; border-radius: 6px; background: var(--ph); position: relative; overflow: hidden; }
+    .thumb::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: 5px; height: 8px; border-radius: 2px; background: rgba(255, 255, 255, .4); }
+    .ref { font-size: 8pt; color: #8E8E93; margin-top: 3px; }
+
+    .calc { margin-left: auto; width: 3.4in; margin-top: 18px; }
+    .calc div { display: flex; justify-content: space-between; padding: 6px 0; font-size: 10pt; }
+    .calc div span:first-child { color: #4A4A50; }
+    .calc .note { font-size: 8pt; color: #8E8E93; padding-top: 0; }
+    .calc .grand { border-top: 1.5px solid #1C1C1E; margin-top: 4px; padding-top: 10px; font-size: 13pt; font-weight: 600; }
+    .calc .grand span:first-child { color: #1C1C1E; }
+
+    footer { margin-top: auto; padding-top: 18px; border-top: 1px solid #E7E8EC; display: flex; justify-content: space-between; gap: 30px; font-size: 8pt; color: #8E8E93; line-height: 1.5; }
+    footer p { max-width: 4.8in; }
+
+    .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 10px; }
+    .shot { break-inside: avoid; }
+    .shot .img { height: 2.35in; border-radius: 14px; background: var(--ph); position: relative; overflow: hidden; display: grid; place-items: center; }
+    .shot .img::after { content: "Sample photo"; color: rgba(255, 255, 255, .85); font-weight: 600; font-size: 11pt; }
+    .shot p { margin-top: 6px; font-size: 9pt; }
+    .shot p b { font-weight: 600; }
+    .concept { position: absolute; top: .22in; left: 0; right: 0; text-align: center; font-size: 7.5pt; color: #D4901A; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <p class="concept">Concept preview · sample data</p>
+    <header>
+      <div class="brand">
+        <div class="logo"><svg viewBox="0 0 512 512"><rect x="226" y="78" width="60" height="34" rx="12" fill="#fff"/><circle cx="256" cy="282" r="150" fill="none" stroke="#fff" stroke-width="34"/><path d="M256 186 A96 96 0 0 1 339 330 L256 282 Z" fill="#3D8B7D"/><path d="M256 282 L256 186" stroke="#fff" stroke-width="30" stroke-linecap="round"/><circle cx="256" cy="282" r="20" fill="#fff"/></svg></div>
+        <div><b>SG Labs</b><span>your email · phone</span></div>
+      </div>
+      <div class="doc">
+        <h1>Work Summary</h1>
+        <p class="num">No. WS-2026-10-001 · Issued Nov 1, 2026</p>
+      </div>
+    </header>
+
+    <div class="meta">
+      <div><small>Client</small><strong>Harbor Coffee Co.</strong></div>
+      <div><small>Project</small><strong><span class="dot"></span>Website redesign</strong></div>
+      <div><small>Period</small><strong>October 2026</strong></div>
+      <div><small>Rate</small><strong class="num">$30.00 / hour</strong></div>
+    </div>
+
+    <div class="totals num">
+      <div><small>Time worked (exact)</small><strong>15h 3m</strong></div>
+      <div><small>Hours billed</small><strong>16 h</strong></div>
+      <div><small>Sessions</small><strong>4</strong></div>
+      <div class="due"><small>Amount due</small><strong>$480.00</strong></div>
+    </div>
+
+    <h2>Work log</h2>
+    <table class="num">
+      <thead>
+        <tr><th>Date</th><th>Start → Stop</th><th class="r">Break</th><th class="r">Worked</th><th style="width:44%">Description &amp; photos</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="date">Oct 28<span>Wednesday</span></td>
+          <td class="time">10:00 PM → 1:15 AM<div class="ref">ends Oct 29</div></td>
+          <td class="r muted">–</td>
+          <td class="r worked">3h 15m</td>
+          <td>Late-night launch prep and DNS switch
+            <div class="thumbs"><i class="thumb" style="--ph:#E3B04B"></i><i class="thumb" style="--ph:#A26EA1"></i><i class="thumb" style="--ph:#c9a27e"></i><i class="thumb" style="--ph:#4E6A86"></i><i class="thumb" style="--ph:#8DB596"></i><i class="thumb" style="--ph:#7fa7c9"></i></div>
+            <div class="ref">Photos 1–6</div></td>
+        </tr>
+        <tr>
+          <td class="date">Oct 30<span>Friday</span></td>
+          <td class="time">9:05 AM → 12:40 PM</td>
+          <td class="r">15m</td>
+          <td class="r worked">3h 20m</td>
+          <td>Client call, then photo shoot edits for the gallery page
+            <div class="thumbs"><i class="thumb" style="--ph:#7fa7c9"></i><i class="thumb" style="--ph:#8DB596"></i><i class="thumb" style="--ph:#E3B04B"></i></div>
+            <div class="ref">Photos 7–9</div></td>
+        </tr>
+        <tr>
+          <td class="date">Oct 30<span>Friday</span></td>
+          <td class="time">1:30 PM → 3:00 PM</td>
+          <td class="r muted">–</td>
+          <td class="r worked">1h 30m</td>
+          <td class="desc-empty">No description</td>
+        </tr>
+        <tr>
+          <td class="date">Oct 31<span>Saturday</span></td>
+          <td class="time">4:30 PM → 11:28 PM</td>
+          <td class="r muted">–</td>
+          <td class="r worked">6h 58m</td>
+          <td>Homepage layout and menu page build
+            <div class="thumbs"><i class="thumb" style="--ph:#c9a27e"></i></div>
+            <div class="ref">Photo 10</div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="calc num">
+      <div><span>Time worked (exact)</span><span>15h 3m</span></div>
+      <div><span>Hours billed</span><span>16 h</span></div>
+      <div class="note"><span>Rounded up to the next full hour</span><span></span></div>
+      <div><span>Hourly rate</span><span>× $30.00</span></div>
+      <div class="grand"><span>Amount due</span><span>$480.00</span></div>
+    </div>
+
+    <footer>
+      <p>Each session was recorded live with a start/stop timer. Start and stop times are exact; breaks are not counted.
+        Only the monthly total is rounded up to the next full hour for billing.</p>
+      <p class="num">Page 1 of 2</p>
+    </footer>
+  </section>
+
+  <section class="page">
+    <p class="concept">Concept preview · sample data</p>
+    <header>
+      <div class="brand">
+        <div class="logo"><svg viewBox="0 0 512 512"><rect x="226" y="78" width="60" height="34" rx="12" fill="#fff"/><circle cx="256" cy="282" r="150" fill="none" stroke="#fff" stroke-width="34"/><path d="M256 186 A96 96 0 0 1 339 330 L256 282 Z" fill="#3D8B7D"/><path d="M256 282 L256 186" stroke="#fff" stroke-width="30" stroke-linecap="round"/><circle cx="256" cy="282" r="20" fill="#fff"/></svg></div>
+        <div><b>Proof of work</b><span>Website redesign · October 2026</span></div>
+      </div>
+      <div class="doc"><p class="num">No. WS-2026-10-001</p></div>
+    </header>
+    <div class="gallery num" style="margin-top:26px">
+      <div class="shot"><div class="img" style="--ph:linear-gradient(135deg,#E3B04B,#c58b1f)"></div><p><b>Photo 1</b> · Oct 28, 10:00 PM – 1:15 AM</p></div>
+      <div class="shot"><div class="img" style="--ph:linear-gradient(135deg,#A26EA1,#6f4370)"></div><p><b>Photo 2</b> · Oct 28, 10:00 PM – 1:15 AM</p></div>
+      <div class="shot"><div class="img" style="--ph:linear-gradient(135deg,#7fa7c9,#3f6487)"></div><p><b>Photo 7</b> · Oct 30, 9:05 AM – 12:40 PM</p></div>
+      <div class="shot"><div class="img" style="--ph:linear-gradient(135deg,#c9a27e,#7a5a3e)"></div><p><b>Photo 10</b> · Oct 31, 4:30 PM – 11:28 PM</p></div>
+    </div>
+    <p class="muted" style="font-size:8.5pt;margin-top:14px">Concept shows 4 of 10 photos. The real export would include every photo, about 4 per page.</p>
+    <footer>
+      <p>Photos are taken in the app when a session is stopped and are attached to that session.</p>
+      <p class="num">Page 2 of 2</p>
+    </footer>
+  </section>
+</body>
+</html>
