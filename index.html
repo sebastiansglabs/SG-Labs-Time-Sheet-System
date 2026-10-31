@@ -225,6 +225,18 @@
     .timer-actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .timer-actions.two { grid-template-columns: 1fr 1fr; }
     .go-btn { --btn: var(--go); }
+
+    /* Running: only the timer and its buttons, centered */
+    .screen.focus .clock,
+    .screen.focus #timerPanel > .label,
+    .screen.focus #timerProjects,
+    .screen.focus #timerDesc,
+    .screen.focus .elapsed-meta { display: none; }
+    .screen.focus #timerPanel { justify-content: center; gap: 28px; padding-bottom: 56px; animation: switch .45s var(--ease); }
+    .screen.focus .stopwatch { margin-top: 0; padding: 0; }
+    .screen.focus .elapsed { font-size: clamp(64px, 21vw, 104px); letter-spacing: -.04em; }
+    .screen.focus .elapsed.paused { animation: pulse 1.6s infinite; }
+    .screen.focus .timer-actions { width: 100%; max-width: 420px; align-self: center; }
     .stop-btn { --btn: var(--danger); }
 
     .done-card { padding: 20px 18px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -479,6 +491,7 @@
           <p class="done-times num" id="doneTimes"></p>
           <p class="done-break num" id="doneBreak"></p>
         </div>
+        <textarea class="field" id="doneDesc" rows="1" placeholder="Description (optional)" maxlength="500"></textarea>
         <div class="prompt">
           <h3>Add proof of work?</h3>
           <p>Snap a photo of what you worked on. It's optional.</p>
@@ -487,6 +500,7 @@
         <div class="stack" style="margin-top:auto">
           <button class="primary-btn" id="saveEntryBtn">Save to log</button>
           <button class="secondary-btn" id="resumeBtn">Resume timer</button>
+          <button class="danger-btn" id="discardBtn">Discard this session</button>
         </div>
       </div>
     </div>

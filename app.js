@@ -324,6 +324,7 @@ function closeTimer() {
 function renderTimer() {
   const a = db.active;
   const finishing = !!a?.end;
+  $('#timer').classList.toggle('focus', !!a && !finishing);
   $('#timerPanel').hidden = finishing;
   $('#finishPanel').hidden = !finishing;
   if (finishing) return renderFinish();
@@ -423,10 +424,14 @@ function resumeTimer() {
 function renderFinish() {
   const a = db.active, p = projOf(a.projectId);
   $('#doneProj').innerHTML = p ? `${dot(p.color, 'sm')}${esc(p.name)}` : '';
-  $('#doneTotal').textContent = dur(elapsed());
+  const ms = elapsed();
+  $('#doneTotal').textContent = ms < MIN ? `${Math.floor(ms / 1000)}s` : dur(ms);
   $('#doneTimes').innerHTML = `${fmtTime(a.start)} <span>→</span> ${fmtTime(a.end)}`;
   const brk = breakTotal(a.breaks, a.end);
   $('#doneBreak').textContent = brk >= MIN ? `${dur(brk)} break not counted` : '';
+  const desc = $('#doneDesc');
+  desc.value = a.description;
+  requestAnimationFrame(() => grow(desc));
   renderPhotoGrid($('#donePhotos'), a.photos);
   $('#saveEntryBtn').textContent = a.photos.length ? 'Save to log' : 'Skip photo & save';
 }
@@ -440,7 +445,7 @@ function saveActive() {
     start: a.start,
     end: a.end,
     breakMs: breakTotal(a.breaks, a.end),
-    description: a.description,
+    description: a.description.trim(),
     photos: a.photos,
   };
   db.entries.push(entry);
@@ -661,6 +666,10 @@ function updateEntryWorked() {
 }
 for (const id of ['#entryStart', '#entryEnd', '#entryBreak']) $(id).addEventListener('input', updateEntryWorked);
 $('#entryDesc').addEventListener('input', e => grow(e.target));
+$('#doneDesc').addEventListener('input', e => {
+  grow(e.target);
+  if (db.active) { db.active.description = e.target.value; save(); }
+});
 $('#timerDesc').addEventListener('input', e => {
   grow(e.target);
   if (db.active) { db.active.description = e.target.value; save(); }
@@ -877,6 +886,17 @@ $('#timerActions').addEventListener('click', async e => {
 });
 $('#saveEntryBtn').addEventListener('click', saveActive);
 $('#resumeBtn').addEventListener('click', resumeTimer);
+$('#discardBtn').addEventListener('click', async () => {
+  const a = db.active;
+  if (!a?.end) return;
+  const ok = await ask({ title: 'Discard this session?', message: `This session won't be saved to the log.${a.photos.length ? ' Its photos are deleted too.' : ''}`, ok: 'Discard' });
+  if (!ok) return;
+  deletePhotos(a.photos);
+  db.active = null;
+  save();
+  closeTimer();
+  toast('Session discarded');
+});
 
 // One clock for everything that counts
 function tick() {
