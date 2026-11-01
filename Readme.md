@@ -51,6 +51,11 @@ Then open http://localhost:8000.
 - Data is stored only on the phone. Use **⋯ → Export** now and then as a backup (photos are included).
 - Photos are resized to 1600px so they don't fill up the phone.
 
+## iPhone app (lock screen + Dynamic Island)
+
+`ios/` holds a native iPhone version of the same app. The timer appears on the lock screen and in the
+Dynamic Island, with Pause and Stop buttons. Setup steps: [ios/README.md](ios/README.md).
+
 ## Later
 
 - PDF export for clients (see `concept/receipt-concept.pdf`).
