@@ -42,6 +42,15 @@ The log always shows EXACT times. Only billing rounds: the month's total rounds 
   the owner: (1) round the monthly total (current) or each session? (2) header name/contact details,
   (3) keep the separate photo page or thumbnails only?
 
+## Owner's setup notes (Nov 2026)
+- GitHub: the owner now works as **ToastyGhostCode** (gh CLI logged in on the Mac). This repo and budgeting-app
+  stay under `sebastiansglabs` (public, for free GitHub Pages) with ToastyGhostCode as collaborator.
+- Mac layout: `~/Claude/` (private repo `claude-workspace`: CLAUDE.md, styles.md, projects.md) and
+  `~/Claude/projects/<repo>/` for each project.
+- Known Mac issue: Claude Code's native build got `ECONNRESET` / `ENOTFOUND` on every network while curl and
+  Safari worked. Fixed by updating off the macOS beta + restart (+ clean reinstall if needed). If it returns,
+  try that first; see anthropics/claude-code issues 38977 and 98475.
+
 ## Later
 - AltServer weekly auto-refresh setup (add steps to `ios/README.md` §9).
 - Team version: workers log in and only see projects they're assigned to (needs hosted DB + auth, and the
